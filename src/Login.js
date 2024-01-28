@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col, Card, Button, Form, InputGroup, FloatingLabel, Spinner } from "react-bootstrap";
-import { FaCubes, FaUserAlt } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import supabase from './SupabaseClient.js';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ function Login() {
       
     return (
         <Container className="d-flex justify-content-center align-items-center vh-100">
-          <Card className="p-4" style={{ background: 'linear-gradient(black, gray)', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, .1)' }}>
+          <Card className="p-4" style={{ background: 'linear-gradient(skyblue, lightgray, white)', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, .1)' }}>
             <Row>
               <Col md='12'>
                 <Card.Body className='d-flex flex-column'>
@@ -123,6 +123,9 @@ function Login() {
                         </Button>
                       </Col>
                     </Row>
+                    <p className="mb-5 mt-4">
+                                Don't have an account? <a style={{color: `orange`, cursor: 'pointer', textDecoration: 'none'}} href="/register">Register</a>
+                            </p>
                   </Form>
                 </Card.Body>
               </Col>

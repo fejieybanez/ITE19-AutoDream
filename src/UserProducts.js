@@ -11,20 +11,20 @@ function UserProducts() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
 
+    //fetch all car data from table dealer_inventory1 
     const all = async () => {
         try {
             const { data } = await supabase
                 .from('dealer_inventory1')
                 .select('*');
-
             console.log(data);
             setCarData(data);
         } catch (error) {
             console.error('Error during login:', error.message);
             setError(error.message);
         }
-    };
-
+    }; 
+//execute the all function
     useEffect(() => {
         all();
     }, []);
@@ -66,7 +66,7 @@ function UserProducts() {
                 <Form className="d-flex justify-content-end mt-5 me-2" style={{ width: '70%' }}>
                     <Form.Control
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search cars"
                         className="me-2 w-25"
                         aria-label="Search"
                         onChange={event => setSearchTerm(event.target.value)}
@@ -209,7 +209,7 @@ function UserProducts() {
 }
 
 function CarCard({ car, onClickBuyNow }) {
-    const { car_name, price, image_path, stocks, description } = car;
+    const { car_name, price, VIN, image_path, stocks, description } = car;
     const [showFullDescription, setShowFullDescription] = useState(false);
 
     const handleBuyNowClick = () => {
@@ -241,7 +241,8 @@ function CarCard({ car, onClickBuyNow }) {
                             {showFullDescription ? ' Read less' : ' Read more...'}
                         </span>
                     </Card.Text>
-                    <Card.Text>Price: {price}</Card.Text>
+                    <Card.Text>VIN: {VIN}</Card.Text>
+                    <Card.Text>Price: ₱{price}</Card.Text>
                     <Card.Text>Stocks: {stocks}</Card.Text>
                     <Button
                         variant="dark"
@@ -266,4 +267,6 @@ function CarCard({ car, onClickBuyNow }) {
 
 
 export default UserProducts;
+
+
 

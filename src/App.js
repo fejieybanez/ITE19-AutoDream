@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './Login.js';
+import Register from './Register.js';
 import UserHome from './UserHome.js';
 import UserPurchase from './UserPurchase.js';
 import UserProducts from './UserProducts.js';
@@ -9,10 +10,12 @@ import DealerSales from './DealerSales.js';
 import DealerConfirm from './DealerConfirm.js';
 import UserConfirm from './UserConfirm.js'
 
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/userhome" element={<UserHome />} />
       <Route path="/userpurchase" element={<UserPurchase />} />
       <Route path="/userproducts" element={<UserProducts />} />

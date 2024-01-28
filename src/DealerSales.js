@@ -1,4 +1,4 @@
-import { Table, Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import DealerNavbar from "./DealerNavbar.js";
 import supabase from './SupabaseClient.js';
 import { useState, useEffect, useCallback } from 'react';
@@ -42,7 +42,7 @@ function UserPurchase() {
                                         <strong>Customer:</strong> {purchase.user_name} <br />
                                         <strong>Color:</strong> {purchase.car_color} <br />
                                         <strong>Engine:</strong> {purchase.car_engine} <br />
-                                        <strong>Price:</strong> {purchase.car_price} <br />
+                                        <strong>Price:</strong> ₱{purchase.car_price} <br />
                                         <strong>Style:</strong> {purchase.car_style} <br />
                                         <strong>Transmission:</strong> {purchase.transmission_type} <br />
                                         <strong>VIN:</strong> {purchase.VIN} <br />

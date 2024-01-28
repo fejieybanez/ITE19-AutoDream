@@ -55,7 +55,7 @@ function DealerInventory() {
             )}
             <div className="footer1 d-flex mt-2">
                 <div style={{ fontSize: "10px", margin: 'auto' }}>
-                    © 2024 Copyright: ITE 19 - Appraisal
+                    © 2024 Copyright: AutoDream
                 </div>
             </div>
         </>
@@ -96,14 +96,14 @@ function CarCard({ car }) {
                         <Card.Text style={{ textAlign: 'justify', marginBottom: '1rem', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: showFullDescription ? 'unset' : 3 }}>
                             {truncatedDescription}
                             {description.length > maxDescriptionLength && (
-                                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={toggleDescription}>
+                                <span style={{ color: 'gray', cursor: 'pointer' }} onClick={toggleDescription}>
                                     {showFullDescription ? ' Read less' : ' Read more...'}
                                 </span>
                             )}
                         </Card.Text>
                     </div>
                     <div>
-                        <Card.Text className="text-muted">Price: {price}</Card.Text>
+                        <Card.Text className="text-muted">Price: ₱{price}</Card.Text>
                         <Card.Text className="text-muted">Stocks: {stocks}</Card.Text>
                     </div>
                 </Card.Body>

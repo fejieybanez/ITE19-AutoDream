@@ -105,90 +105,93 @@ function BuyNow() {
 
     return (
         <>
-            <UserNavbar />
-            <Container className='mt-5'>
-                <Card className='mt-5' style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-                    padding: '20px 20px'
-                }}>
-                    <Row>
+          <UserNavbar />
+          <Container className='mt-5'>
+            <Card className='mt-5' style={{
+              boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+              padding: '20px 20px',
+              backgroundColor: 'lightblue', 
+            }}>
+              <Row>
+                <Col>
+                  <Card.Img src={image_path} />
+                  <Card.Title className="mt-3">{car_style}</Card.Title><br />
+                </Col>
+                <Col>
+                  <div>
+                    <Card.Title className="mt-3">{car_name}</Card.Title>
+                    <Card.Title className="mt-1">₱{car_price}</Card.Title><br />
+                    <Card.Text>
+                      <Row>
                         <Col>
-                            <Card.Img src={image_path} />
+                          <p>Available Colors:</p>
+                          <div style={{ display: 'flex', gap: '5px', justifyContent: 'flex-start' }}>
+                            {colorOptions.map((color, index) => (
+                              <div
+                                key={index}
+                                onClick={() => setCarColor(color)}
+                                style={{
+                                  backgroundColor: color.toLowerCase(),
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  cursor: 'pointer',
+                                  border: `2px solid ${carColor === color ? 'orange' : 'transparent'}`,
+                                }}
+                              />
+                            ))}
+                          </div>
                         </Col>
+                      </Row>
+                      <Row className="mt-3">
                         <Col>
-                            <div>
-                                <Card.Title className="mt-3">{car_name}</Card.Title>
-                                <Card.Title className="mt-1">{car_price}</Card.Title><br />
-                                <Card.Text>
-                                    <Row>
-                                        <Col>
-                                            <p>Choose car color:</p>
-                                            <div style={{ display: 'flex', gap: '5px', justifyContent: 'center' }}>
-                                                {colorOptions.map((color, index) => (
-                                                    <div
-                                                        key={index}
-                                                        onClick={() => setCarColor(color)}
-                                                        style={{
-                                                            backgroundColor: color.toLowerCase(),
-                                                            width: '20px',
-                                                            height: '20px',
-                                                            borderRadius: '50%',
-                                                            cursor: 'pointer',
-                                                            border: `2px solid ${carColor === color ? 'orange' : 'transparent'}`, 
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <FloatingLabel controlId="floatingSelectGrid" label="Car Engine : ">
-                                                <Form.Select value={carEngine} onChange={(e) => setCarEngine(e.target.value)} aria-label="Floating label select example">
-                                                        <option value="v4">v4</option>
-                                                        <option value="v6">v6</option>
-                                                        <option value="v8">v8</option>
-                                                </Form.Select>
-                                            </FloatingLabel>
-                                        </Col>
-                                        <Row>
-                                            <Col>
-                                                <FloatingLabel
-                                                    className="mt-3"
-                                                    controlId="floatingSelectGrid"
-                                                    label="Transmission Type : "
-                                                >
-                                                    <Form.Select value={transmissionType} onChange={(e) => setTransmissionType(e.target.value)} aria-label="Floating label select example">
-                                                    <option value="Automatic">Automatic</option>
-                                                    <option value="Manual">Manual</option>
-                                                    </Form.Select>
-                                                </FloatingLabel>
-                                            </Col>
-                                        </Row>
-                                    </Row>
-                                </Card.Text>
-                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Button
-                                        variant="warning"
-                                        className="check-out w-50"
-                                        onClick={deduct}
-                                        style={{ height: "55px" }}
-                                    >
-                                        Buy Now
-                                    </Button>
-                                </div>
-                                {error && <p>{error}</p>}
-                            </div>
+                          <FloatingLabel controlId="floatingSelectGrid" label="Car Engine : ">
+                            <Form.Select value={carEngine} onChange={(e) => setCarEngine(e.target.value)} aria-label="Floating label select example">
+                              <option value="v4">v4</option>
+                              <option value="v6">v6</option>
+                              <option value="v8">v8</option>
+                            </Form.Select>
+                          </FloatingLabel>
                         </Col>
-                    </Row>
-                </Card>
-            </Container>
-            <div className="footer1 d-flex">
-                <div style={{ fontSize: "10px" }} className='mt-2'>
-                    © 2024 Copyright: Auto Dream
-                </div>
+                      </Row>
+                      <Row className="mt-3">
+                        <Col>
+                          <FloatingLabel
+                            controlId="floatingSelectGrid"
+                            label="Transmission Type : "
+                          >
+                            <Form.Select value={transmissionType} onChange={(e) => setTransmissionType(e.target.value)} aria-label="Floating label select example">
+                              <option value="Automatic">Automatic</option>
+                              <option value="Manual">Manual</option>
+                            </Form.Select>
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                    </Card.Text>
+    
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Button
+                        variant="warning"
+                        className="check-out w-50"
+                        onClick={deduct}
+                        style={{ height: "55px" }}
+                      >
+                        Buy Now
+                      </Button>
+                    </div>
+                    {error && <p>{error}</p>}
+                  </div>
+                </Col>
+              </Row>
+            </Card>
+          </Container>
+          <div className="footer1 d-flex">
+            <div style={{ fontSize: "10px" }} className='mt-2'>
+              © 2024 Copyright: Auto Dream
             </div>
+          </div>
         </>
-    );
-}
-
-
-export default BuyNow;
+      );
+    }
+    
+    export default BuyNow;

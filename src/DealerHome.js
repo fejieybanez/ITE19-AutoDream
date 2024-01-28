@@ -70,7 +70,7 @@ function CompanyVehicles() {
             )}
             <div className="footer1 d-flex mt-2">
                 <div style={{ fontSize: "10px", margin: 'auto' }}>
-                    © 2024 Copyright: ITE 19 - Appraisal
+                    © 2024 Copyright: AutoDream
                 </div>
             </div>
         </>
@@ -95,7 +95,7 @@ function CarCard({ car, onClickBuyNow }) {
             <Card.Img src={image_path} className="card-image" style={{ objectFit: 'cover', flex: 1 }} />
             <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <Card.Title className="mt-2">{car_name}</Card.Title>
-                <Card.Text>Price: {price}<br />Stocks: {stocks}</Card.Text>
+                <Card.Text>Price: ₱{price}<br />Stocks: {stocks}</Card.Text>
                 <Button
                     variant="dark"
                     className="check-out mt-auto hover-button"

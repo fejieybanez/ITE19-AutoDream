@@ -64,7 +64,7 @@ function UserHome() {
                     Loading...
                   </>
                 ) : (
-                  'My Purchases'
+                  'My Orders'
                 )}
               </Button>
             </h1>
