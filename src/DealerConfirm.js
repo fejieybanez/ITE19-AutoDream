@@ -9,7 +9,7 @@ const DealerConfirm = () =>  {
 
     const deduct = useCallback(async (car_name) => {
         const { data } = await supabase
-        .from('cars')
+        .from('cars1')
         .select('*')
         .eq('car_name', car_name)
         .single();
@@ -22,7 +22,7 @@ const DealerConfirm = () =>  {
           const deductedstocks = localStorage.getItem('newstocks')
           let newStocks = parseInt(deductedstocks) - 1;
             const { data } = await supabase
-            .from('cars')
+            .from('cars1')
             .update({ 'stocks': newStocks })    
             .eq('car_name', car_name);
             console.log(data);
@@ -39,7 +39,7 @@ const DealerConfirm = () =>  {
         let newStocks = parseInt(stocks) + 1;
         try {
             const { data } = await supabase
-            .from('dealer_inventory')
+            .from('dealer_inventory1')
             .update({ 'stocks': newStocks })    
             .eq('car_name', car_name);
             console.log(data);
@@ -57,10 +57,11 @@ const DealerConfirm = () =>  {
         const price = localStorage.getItem('price');
         const vin = localStorage.getItem('VIN');
         const image_path = localStorage.getItem('image_path');
+        const description = localStorage.getItem('description');
 
         try {
             const { data } = await supabase
-            .from('dealer_inventory')
+            .from('dealer_inventory1')
             .insert([
                 {
                     dealer_name,
@@ -69,7 +70,8 @@ const DealerConfirm = () =>  {
                     price,
                     VIN: vin,
                     image_path,
-                    stocks:'1'
+                    stocks:'1',
+                    description
                 },
             ])
             .select()
@@ -87,7 +89,7 @@ const DealerConfirm = () =>  {
         const car_name = localStorage.getItem('car_name');
         try {
             const { data } = await supabase
-            .from('dealer_inventory')
+            .from('dealer_inventory1')
             .select('*')
             .eq('car_name', car_name)
             .single();

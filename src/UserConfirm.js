@@ -24,7 +24,7 @@ function BuyNow() {
     const deduct = async () => {
         const car_name = localStorage.getItem('car_name');
         const { data } = await supabase
-            .from('dealer_inventory')
+            .from('dealer_inventory1')
             .select('*')
             .eq('car_name', car_name)
             .single();
@@ -37,7 +37,7 @@ function BuyNow() {
             const deductedstocks = localStorage.getItem('newstocks');
             let newStocks = parseInt(deductedstocks) - 1;
             const { data } = await supabase
-                .from('dealer_inventory')
+                .from('dealer_inventory1')
                 .update({ 'stocks': newStocks })
                 .eq('car_name', car_name);
             console.log(data);

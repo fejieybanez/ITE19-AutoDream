@@ -15,7 +15,7 @@ function CompanyVehicles() {
     const handleLogin = useCallback(async () => {
         try {
             const { data } = await supabase
-                .from('cars')
+                .from('cars1')
                 .select('*')
                 .eq('dealer_name', dealerName);
             setCarData(data);
@@ -30,7 +30,7 @@ function CompanyVehicles() {
     }, [handleLogin]);
 
     const onClickBuyNow = (car) => {
-        const { dealer_name, car_name, car_style, price, VIN, image_path, stocks } = car;
+        const { dealer_name, car_name, car_style, price, VIN, image_path, stocks, description } = car;
         localStorage.setItem('dealer_name', dealer_name);
         localStorage.setItem('car_name', car_name);
         localStorage.setItem('car_style', car_style);
@@ -38,6 +38,7 @@ function CompanyVehicles() {
         localStorage.setItem('VIN', VIN);
         localStorage.setItem('image_path', image_path);
         localStorage.setItem('stocks', stocks);
+        localStorage.setItem('description', description);
         navigate('/dealerconfirm');
     };
 

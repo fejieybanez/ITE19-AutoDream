@@ -14,7 +14,7 @@ function UserProducts() {
     const all = async () => {
         try {
             const { data } = await supabase
-                .from('dealer_inventory')
+                .from('dealer_inventory1')
                 .select('*');
 
             console.log(data);
@@ -35,7 +35,7 @@ function UserProducts() {
                 all();
             } else {
                 const { data } = await supabase
-                    .from('dealer_inventory')
+                    .from('dealer_inventory1')
                     .select('*')
                     .eq('dealer_name', dealer_name);
                 setCarData(data);
@@ -47,13 +47,14 @@ function UserProducts() {
     };
 
     const onClickBuyNow = (car) => {
-        const { dealer_name, car_name, car_style, price, VIN, image_path } = car;
+        const { dealer_name, car_name, car_style, price, VIN, image_path, description } = car;
         localStorage.setItem('dealer_name', dealer_name);
         localStorage.setItem('car_name', car_name);
         localStorage.setItem('car_style', car_style);
         localStorage.setItem('price', price);
         localStorage.setItem('VIN', VIN);
         localStorage.setItem('image_path', image_path);
+        localStorage.setItem('description', description);
         navigate('/userconfirm');
     };
 
@@ -208,11 +209,18 @@ function UserProducts() {
 }
 
 function CarCard({ car, onClickBuyNow }) {
-    const { car_name, price, image_path, stocks } = car;
+    const { car_name, price, image_path, stocks, description } = car;
+    const [showFullDescription, setShowFullDescription] = useState(false);
 
     const handleBuyNowClick = () => {
         onClickBuyNow(car);
     };
+
+    const toggleDescription = () => {
+        setShowFullDescription(!showFullDescription);
+    };
+
+    const truncatedDescription = showFullDescription ? description : `${description.slice(0, 100)}...`;
 
     return (
         <div className="mb-4" style={{ height: '100%' }}>
@@ -223,10 +231,18 @@ function CarCard({ car, onClickBuyNow }) {
                 flexDirection: 'column', 
                 height: '100%', 
             }} className="hover-card"> 
-                <Card.Img src={image_path} className="card-image" style={{ objectFit: 'cover', flex: 1 }} />
+                <Card.Img src={image_path} className="card-image" style={{ objectFit: 'contain', flex: 1, height: '100%' }} />
                 <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <Card.Title className="mt-2">{car_name}</Card.Title>
-                    <Card.Text>Description: <br /> Price: {price}<br />Stocks: {stocks} </Card.Text>
+                    <Card.Text style={{ textAlign: 'justify', marginBottom: '1rem' }}>
+                        {showFullDescription ? description : truncatedDescription}
+                        {' '}
+                        <span onClick={toggleDescription} style={{ color: 'gray', cursor: 'pointer' }}>
+                            {showFullDescription ? ' Read less' : ' Read more...'}
+                        </span>
+                    </Card.Text>
+                    <Card.Text>Price: {price}</Card.Text>
+                    <Card.Text>Stocks: {stocks}</Card.Text>
                     <Button
                         variant="dark"
                         className="check-out mt-auto hover-button"
@@ -246,5 +262,8 @@ function CarCard({ car, onClickBuyNow }) {
         </div>
     );
 }
+
+
+
 export default UserProducts;
 

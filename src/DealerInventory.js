@@ -13,7 +13,7 @@ function DealerInventory() {
     const handleInventory = useCallback(async () => {
         try {
             const { data } = await supabase
-                .from('dealer_inventory')
+                .from('dealer_inventory1')
                 .select('*')
                 .eq('dealer_name', dealerName);
             setCarData(data);
@@ -62,26 +62,57 @@ function DealerInventory() {
     );
 };
 
+
 function CarCard({ car }) {
-    const { car_name, price, image_path, stocks } = car;
+    const { car_name, description, price, image_path, stocks } = car;
+    const [showFullDescription, setShowFullDescription] = useState(false);
+
+    const toggleDescription = () => {
+        setShowFullDescription(!showFullDescription);
+    };
+
+    const maxDescriptionLength = 70;  
+
+    const truncatedDescription = showFullDescription ? description : `${description.slice(0, maxDescriptionLength)}...`;
 
     return (
-        <div className="mb-4" style={{ height: '100%' }}>
+        <div className="mb-4" style={{ width: '100%', maxWidth: '400px' }}>
             <Card style={{
-                maxWidth: '540px',
-                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+                boxShadow: '0px 14px 28px rgba(0, 0, 0, 0.25), 0px 10px 10px rgba(0, 0, 0, 0.22)',
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
             }} className="hover-card">
                 <Card.Img src={image_path} className="card-image" style={{ objectFit: 'cover', flex: 1 }} />
-                <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
-                    <Card.Title className="mt-2">{car_name}</Card.Title>
-                    <Card.Text>Price: {price}<br />Stocks: {stocks}</Card.Text>
+                <Card.Body style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '180px', 
+                }}>
+                    <div>
+                        <Card.Title className="mt-2">{car_name}</Card.Title>
+                        <Card.Text style={{ textAlign: 'justify', marginBottom: '1rem', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: showFullDescription ? 'unset' : 3 }}>
+                            {truncatedDescription}
+                            {description.length > maxDescriptionLength && (
+                                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={toggleDescription}>
+                                    {showFullDescription ? ' Read less' : ' Read more...'}
+                                </span>
+                            )}
+                        </Card.Text>
+                    </div>
+                    <div>
+                        <Card.Text className="text-muted">Price: {price}</Card.Text>
+                        <Card.Text className="text-muted">Stocks: {stocks}</Card.Text>
+                    </div>
                 </Card.Body>
             </Card>
         </div>
     );
 }
+
+
+
 
 export default DealerInventory;
