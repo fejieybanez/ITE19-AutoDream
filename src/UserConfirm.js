@@ -4,7 +4,7 @@ import UserNavbar from './UserNavbar.js';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, FloatingLabel } from 'react-bootstrap';
 
-const colorOptions = ['Red', 'White', 'Black']; // Add more colors if needed
+const colorOptions = ['Red', 'White', 'Black']; 
 
 function BuyNow() {
     const [error, setError] = useState(null);

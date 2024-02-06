@@ -64,7 +64,7 @@ function Register() {
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Card className="p-4" style={{ background: 'linear-gradient(skyblue, lightgray, white)', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, .1)' }}>
+      <Card className="p-4" style={{ background: 'linear-gradient(skyblue, lightgray, white)', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, .1)', width:`500px` }}>
         <Row>
           <Col md='12'>
             <Card.Body className='d-flex flex-column'>

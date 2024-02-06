@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import UserNavbar from "./UserNavbar.js";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Card, Container, Button, Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import supabase from './SupabaseClient.js';
+import UserNavbar from "./UserNavbar.js";
 import './App.css';
 
 function UserProducts() {
@@ -10,21 +10,21 @@ function UserProducts() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
 
-    //fetch all car data from table dealer_inventory1 
     const all = async () => {
         try {
             const { data } = await supabase
                 .from('dealer_inventory1')
                 .select('*');
-            console.log(data);
             setCarData(data);
         } catch (error) {
-            console.error('Error during login:', error.message);
+            console.error('Error during fetching all cars:', error.message);
             setError(error.message);
         }
-    }; 
-//execute the all function
+    };
+
     useEffect(() => {
         all();
     }, []);
@@ -43,6 +43,28 @@ function UserProducts() {
         } catch (error) {
             console.error('Error during login:', error.message);
             setError(error.message);
+        }
+    };
+
+    const filterByPriceRange = async (min, max) => {
+        try {
+            const { data } = await supabase
+                .from('dealer_inventory1')
+                .select('*')
+                .gte('price', min)
+                .lte('price', max);
+            setCarData(data);
+        } catch (error) {
+            console.error('Error during filtering by price range:', error.message);
+            setError(error.message);
+        }
+    };
+
+    const handlePriceFilter = () => {
+        if (minPrice !== "" || maxPrice !== "") {
+            filterByPriceRange(minPrice || 0, maxPrice || Infinity);
+        } else {
+            all();
         }
     };
 
@@ -66,15 +88,37 @@ function UserProducts() {
                 <Form className="d-flex justify-content-end mt-5 me-2" style={{ width: '70%' }}>
                     <Form.Control
                         type="search"
-                        placeholder="Search cars"
+                        placeholder="Search"
                         className="me-2 w-25"
                         aria-label="Search"
                         onChange={event => setSearchTerm(event.target.value)}
                         style={{ borderColor: 'orange' }}
                     />
+                    <Form.Control
+                        type="number"
+                        placeholder="Min Price"
+                        value={minPrice}
+                        onChange={event => setMinPrice(event.target.value)}
+                        style={{ borderColor: 'orange' }}
+                    />
+                    <Form.Control
+                        type="number"
+                        placeholder="Max Price"
+                        value={maxPrice}
+                        onChange={event => setMaxPrice(event.target.value)}
+                        style={{ borderColor: 'orange' }}
+                    />
+                    <Button
+                        variant="outline-secondary"
+                        onClick={handlePriceFilter}
+                        style={{ backgroundColor: 'orange', borderColor: 'orange' }}
+                    >
+                        Filter
+                    </Button>
                 </Form>
-                <div className="d-flex justify-content-start mt-5" style={{ width: '100%' }}>
-                    <button
+
+                     <div className="d-flex justify-content-start mt-5" style={{ width: '100%' }}>
+                     <button
                         className="btn btn-outline-secondary me-2"
                         onClick={all}
                         onMouseOver={(e) => {
@@ -190,6 +234,7 @@ function UserProducts() {
                         Chevrolet
                     </button>
                 </div>
+
             </Container>
             {carData && carData.length > 0 && (
                 <Container className='flexcon mt-4'>
@@ -209,7 +254,7 @@ function UserProducts() {
 }
 
 function CarCard({ car, onClickBuyNow }) {
-    const { car_name, price, VIN, image_path, stocks, description } = car;
+    const { car_name, price, image_path, stocks, description } = car;
     const [showFullDescription, setShowFullDescription] = useState(false);
 
     const handleBuyNowClick = () => {
@@ -228,9 +273,9 @@ function CarCard({ car, onClickBuyNow }) {
                 maxWidth: '540px',
                 boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
                 display: 'flex',
-                flexDirection: 'column', 
-                height: '100%', 
-            }} className="hover-card"> 
+                flexDirection: 'column',
+                height: '100%',
+            }} className="hover-card">
                 <Card.Img src={image_path} className="card-image" style={{ objectFit: 'contain', flex: 1, height: '100%' }} />
                 <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <Card.Title className="mt-2">{car_name}</Card.Title>
@@ -241,7 +286,6 @@ function CarCard({ car, onClickBuyNow }) {
                             {showFullDescription ? ' Read less' : ' Read more...'}
                         </span>
                     </Card.Text>
-                    <Card.Text>VIN: {VIN}</Card.Text>
                     <Card.Text>Price: ₱{price}</Card.Text>
                     <Card.Text>Stocks: {stocks}</Card.Text>
                     <Button
@@ -250,11 +294,7 @@ function CarCard({ car, onClickBuyNow }) {
                         onClick={handleBuyNowClick}
                         style={{
                             backgroundColor: 'orange',
-                            borderColor: 'orange', 
-                            ':hover': {
-                                backgroundColor: '#d46d00', 
-                                borderColor: '#d46d00', 
-                            },
+                            borderColor: 'orange',
                         }}>
                         Order Now
                     </Button>
@@ -264,9 +304,4 @@ function CarCard({ car, onClickBuyNow }) {
     );
 }
 
-
-
 export default UserProducts;
-
-
-

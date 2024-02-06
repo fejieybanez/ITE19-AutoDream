@@ -1,4 +1,4 @@
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import supabase from './SupabaseClient.js';
 import UserNavbar from "./UserNavbar.js";
 import { useState, useEffect, useCallback } from 'react';
@@ -31,30 +31,39 @@ function UserPurchase() {
         <>
             <UserNavbar />
             <Container className='mt-5'>
-                <Row>
-                    {purchaseHistory.map((purchase, index) => (
-                        <Col key={index} md={4} className="mb-4">
-                            <Card>
-                                <Card.Img variant="top" src={purchase.image_path} />
-                                <Card.Body>
-                                    <Card.Title>{purchase.car_name}</Card.Title>
-                                    <Card.Text>
-                                        <strong>Color:</strong> {purchase.car_color} <br />
-                                        <strong>Engine:</strong> {purchase.car_engine} <br />
-                                        <strong>Price:</strong> ₱{purchase.car_price} <br />
-                                        <strong>Style:</strong> {purchase.car_style} <br />
-                                        <strong>Transmission:</strong> {purchase.transmission_type} <br />
-                                        <strong>VIN:</strong> {purchase.VIN} <br />
-                                        <strong>Date of Purchase:</strong> {purchase.created_at}
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>Purchase History</Card.Title>
+                        {purchaseHistory.map((purchase, index) => (
+                            <div key={index} className="border-bottom mb-3">
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <p><strong>Car Name:</strong> {purchase.car_name}</p>
+                                        <p><strong>Color:</strong> {purchase.car_color}</p>
+                                        <p><strong>Engine:</strong> {purchase.car_engine}</p>
+                                        <p><strong>Price:</strong> ₱{purchase.car_price}</p>
+                                        <p><strong>Style:</strong> {purchase.car_style}</p>
+                                        <p><strong>Transmission:</strong> {purchase.transmission_type}</p>
+                                        <p><strong>VIN:</strong> {purchase.VIN}</p>
+                                        <p><strong>Date of Purchase:</strong> {purchase.created_at}</p>
+                                    </div>
+                                    <div>
+                                        <img
+                                            src={purchase.image_path}
+                                            alt={purchase.car_name}
+                                            style={{ width: '400px', height: 'auto' }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </Card.Body>
+                </Card>
             </Container>
         </>
     );
 }
 
 export default UserPurchase;
+
+
