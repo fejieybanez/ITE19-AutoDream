@@ -12,6 +12,7 @@ function UserProducts() {
     const [searchTerm, setSearchTerm] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
+    const [selectedStyle, setSelectedStyle] = useState(""); // State to hold selected car style
 
     const all = async () => {
         try {
@@ -80,11 +81,24 @@ function UserProducts() {
         navigate('/userconfirm');
     };
 
+    const handleStyleFilter = async (style) => {
+        try {
+            const { data } = await supabase
+                .from('dealer_inventory1')
+                .select('*')
+                .eq('car_style', style);
+            setCarData(data);
+        } catch (error) {
+            console.error('Error during filtering by car style:', error.message);
+            setError(error.message);
+        }
+    };
+
     return (
         <>
             <UserNavbar />
             {error && <p>{error}</p>}
-            <Container style={{ display: 'flex' }}>
+            <Container style={{ display: 'flex', flexDirection: 'column' }}>
                 <Form className="d-flex justify-content-end mt-5 me-2" style={{ width: '70%' }}>
                     <Form.Control
                         type="search"
@@ -116,9 +130,8 @@ function UserProducts() {
                         Filter
                     </Button>
                 </Form>
-
-                     <div className="d-flex justify-content-start mt-5" style={{ width: '100%' }}>
-                     <button
+                <div className="d-flex justify-content-start mt-3" style={{ width: '100%' }}>
+                    <button
                         className="btn btn-outline-secondary me-2"
                         onClick={all}
                         onMouseOver={(e) => {
@@ -234,7 +247,27 @@ function UserProducts() {
                         Chevrolet
                     </button>
                 </div>
-
+                <Form.Select
+                    className="me-2 mt-3"
+                    aria-label="Car Style"
+                    onChange={event => {
+                        setSelectedStyle(event.target.value);
+                        handleStyleFilter(event.target.value);
+                    }}
+                    value={selectedStyle}
+                    style={{ borderColor: 'orange', width: '50%', alignSelf: 'center' }}
+                >
+                    <option value="">Select Car Style</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Pick-up Truck">Pick-up Truck</option>
+                    <option value="Pony Car">Pony Car</option>
+                    <option value="Luxury">Luxury</option>
+                    <option value="MPV">MPV</option>
+                    <option value="Convertible">Convertible</option>
+                    <option value="Coupe">Coupe</option>
+                </Form.Select>
             </Container>
             {carData && carData.length > 0 && (
                 <Container className='flexcon mt-4'>
